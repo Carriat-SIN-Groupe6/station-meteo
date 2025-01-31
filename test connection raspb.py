@@ -18,7 +18,9 @@ while max_wait > 0:
         break
     max_wait -= 1
     print('Attente connexion...')
+    print(wlan.status())
     sleep(1)
+    
 
 # Gestion erreur de connexion
 if wlan.status() != 3:
@@ -27,5 +29,6 @@ else:
     print('Connexion reussie')
     status = wlan.ifconfig()
     print( 'ip = ' + status[0] )
+    print(wlan.status())
 
 
