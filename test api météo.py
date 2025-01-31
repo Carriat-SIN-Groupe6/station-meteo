@@ -5,7 +5,7 @@ from picoder import *
 
 led1 = LED(1)
 led2 = LED(2)
-bzrtone = BUZZRTONE()
+bzrtone = BUZZERTONE()
 
 #Entrer les paramètres du point d'accès
 ssid = 'WIFI-SIN'
@@ -22,11 +22,20 @@ while True:
         
         led1.on()
         led2.on()
-        res = requests.get(url='https://api.open-meteo.com/v1/forecast?latitude=46.197376&longitude=5.223058&current=temperature_2m,precipitation&hourly=temperature_2m,precipitation,wind_speed_10m&timezone=auto')
-        print(res.text)
-        time.sleep(3)
+        res = requests.get(url='https://api.open-meteo.com/v1/forecast?latitude=46.197376&longitude=5.223058&current=temperature_2m,apparent_temperature,precipitation,wind_speed_10m&timezone=auto')
         led1.off()
         led2.off()
+        bzrtone.play(523,5000)
+        sleep(0.5)
+        bzrtone.play(659,5000)
+        sleep(0.5)
+        bzrtone.play(880,5000)
+        sleep(1)
+        bzrtone.stop()
+        print(res.text)
+        time.sleep(3)
+        
+    
         break
         
     elif wlan.status() < 0 or wlan.status() >= 3:
