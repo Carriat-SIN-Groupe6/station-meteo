@@ -42,3 +42,4 @@ while True:
             ledmatrix.on((255,0,0),0.02)
             bzrtone.play(50,5000)
             sleep(0.01)
+            break
