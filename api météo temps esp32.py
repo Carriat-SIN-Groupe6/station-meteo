@@ -26,7 +26,7 @@ while True:
         print(f"Il fait {resmétéo_json["current"]["apparent_temperature"]} degres Celcius, Il pleut actuellement a {resmétéo_json["current"]["precipitation"]} mm.")
         print(f"Il souffle dehors a {resmétéo_json["current"]["wind_speed_10m"]} km/h, a Bourg-En-Bresse.")  
         
-        time.sleep(3)
+        sleep(3)
         break
         
         
