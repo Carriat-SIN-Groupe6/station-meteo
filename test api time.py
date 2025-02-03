@@ -21,8 +21,7 @@ wlan.connect(ssid, password)
 while True:
     if wlan.status() == 3:
 
-        res = requests.get(url='https://api.open-meteo.com/v1/forecast?latitude=46.197376&longitude=5.223058&current=temperature_2m,apparent_temperature,precipitation,wind_speed_10m&timezone=Europe%2FLondon')
-        ledmatrix.on((0,255,0),0.02)
+        res = requests.get(url='https://timeapi.io/api/time/current/zone?timeZone=Europe%2FParis')
         bzrtone.play(523,5000)
         sleep(0.5)
         bzrtone.play(659,5000)
@@ -30,10 +29,11 @@ while True:
         bzrtone.play(880,5000)
         sleep(1)
         bzrtone.stop()
-        res_json = res.json()
-        print(f"Il fait {res_json["current"]["apparent_temperature"]} degres Celcius, Il pleut actuellement a {res_json["current"]["precipitation"]} mm.")
-        print(f"Il souffle dehors a {res_json["current"]["wind_speed_10m"]} km/h, a Bourg-En-Bresse.")  
         ledmatrix.off()
+        res_json = res.json()
+        print(f"This is {res_json["time"]}:{res_json["seconds"]} .")
+        print(f"We are {res_json["dayOfWeek"]} {res_json["date"]} .")
+        time.sleep(3)
         time.sleep(3)
         break
         
