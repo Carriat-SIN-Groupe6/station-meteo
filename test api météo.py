@@ -6,6 +6,8 @@ from picoder import *
 ledmatrix = LEDMATRIX()
 bzrtone = BUZZERTONE()
 
+ledmatrix.off()
+
 #Entrer les paramètres du point d'accès
 ssid = 'WIFI-SIN'
 password = '12345678'
@@ -29,7 +31,10 @@ while True:
         sleep(1)
         bzrtone.stop()
         ledmatrix.off()
-        print(res.text)
+        res_json = res.json()
+        print(f"Ts{res_json["time"]}:{res_json["seconds"]}.")
+        print(f"We are {res_json["dayOfWeek"]} {res_json["date"]}.")
+        time.sleep(3)
         time.sleep(3)
         
     
