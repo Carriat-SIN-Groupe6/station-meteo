@@ -21,7 +21,7 @@ wlan.connect(ssid, password)
 while True:
     if wlan.status() == 3:
 
-        res = requests.get(url='https://timeapi.io/api/time/current/zone?timeZone=Europe%2FParis')
+        res_ephe = requests.get(url='https://api.sunrisesunset.io/json?lat=46.20574&lng=5.2258')
         ledmatrix.on((0,255,0),0.02)
         bzrtone.play(523,5000)
         sleep(0.5)
@@ -31,9 +31,9 @@ while True:
         sleep(1)
         bzrtone.stop()
         ledmatrix.off()
-        res_json = res.json()
-        print(f"This is {res_json["time"]}:{res_json["seconds"]} .")
-        print(f"We are {res_json["dayOfWeek"]} {res_json["date"]} .")
+        res_ephe_json = res_ephe.json()
+        print(f"Le soleil va se coucher a {res_ephe_json['results']["sunset"]}.")
+        print(f"Le soleil va se lever a {res_ephe_json['results']["sunrise"]} .")
         time.sleep(3)
         time.sleep(3)
         break

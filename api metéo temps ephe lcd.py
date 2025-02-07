@@ -21,8 +21,8 @@ wlan.connect(ssid, password)
 while True:
     if wlan.status() == 3:
         
-        res_météo = requests.get(url='https://api.open-meteo.com/v1/forecast?latitude=46.197376&longitude=5.223058&current=temperature_2m,apparent_temperature,precipitation,wind_speed_10m&timezone=Europe%2FLondon')
-        res_time = requests.get(url='https://timeapi.io/api/time/current/zone?timeZone=Europe%2FParis')
+        res_ephe = requests.get(url='https://api.sunrisesunset.io/json?lat=46.20574&lng=5.2258')
+        res_météo = requests.get(url='https://api.open-meteo.com/v1/forecast?latitude=46.19737&longitude=5.22305&current=apparent_temperature,precipitation,wind_speed_10m&timezone=auto&forecast_days=1')
         
         ledmatrix.on((0,255,0),0.02)
         
@@ -35,12 +35,14 @@ while True:
         bzrtone.stop()
         
         resmétéo_json = res_météo.json()
-        res_time_json = res_time.json()
+        res_ephe_json = res_ephe.json()
         
-        print(f"This is {res_time_json["time"]}:{res_time_json["seconds"]} .")
-        print(f"We are {res_time_json["dayOfWeek"]} {res_time_json["date"]} .")
+        print('\n-------------------------------------------------------------------------------------------------------------------')
         print(f"Il fait {resmétéo_json["current"]["apparent_temperature"]} degres Celcius, Il pleut actuellement a {resmétéo_json["current"]["precipitation"]} mm.")
         print(f"Il souffle dehors a {resmétéo_json["current"]["wind_speed_10m"]} km/h, a Bourg-En-Bresse.")  
+        print('\n-------------------------------------------------------------------------------------------------------------------')
+        print(f"Le soleil va se coucher a {res_ephe_json['results']["sunset"]}.")
+        print(f"Le soleil va se lever a {res_ephe_json['results']["sunrise"]} .")
         
         time.sleep(3)
         break
