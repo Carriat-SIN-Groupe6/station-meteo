@@ -93,7 +93,7 @@ while True:
 
         display.draw_text8x8(0, 20, f"Il fait {resmétéo_json["current"]["apparent_temperature"]} degres",RGB(255, 255, 255))
         display.draw_text8x8(0, 35, f"Il pleut actuellement a {resmétéo_json["current"]["precipitation"]} mm.",RGB(255, 255, 255))
-        display.draw_text8x8(0, 50, f"Il souffle dehors a {resmétéo_json["current"]["wind_speed_10m"]} km/h.",RGB(255, 255, 255))
+        display.draw_text8x8(0, 50, f"Ca souffle dehors a {resmétéo_json["current"]["wind_speed_10m"]} km/h.",RGB(255, 255, 255))
 
     
     if wlan.status() == 3 and valbtn3==1 :
@@ -117,5 +117,17 @@ while True:
         
         restime_json = res_time.json()
         
-        display.draw_text8x8(0, 20, f"We are {restime_json["dayOfWeek"]} {restime_json["date"]}",RGB(255, 255, 255))
-        display.draw_text8x8(0, 35, f"This is {restime_json["time"]}:{restime_json["seconds"]} .",RGB(255, 255, 255))        
+        jour = restime_json["dayOfWeek"]
+        if jour == 'Monday':
+            jour = 'lundi'
+        if jour == 'Tuesday':
+            jour = 'mardi'
+        if jour == 'Wednesday':
+            jour = 'mercredi'
+        if jour == 'Thursday':
+            jour = 'jeudi'
+        if jour == 'Friday':
+            jour = 'vendredi'
+        
+        display.draw_text8x8(0, 20, f"Nous sommes le {jour} {restime_json["date"]}.",RGB(255, 255, 255))
+        display.draw_text8x8(0, 35, f"Il est {restime_json["time"]}:{restime_json["seconds"]}.",RGB(255, 255, 255))        
