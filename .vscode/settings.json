@@ -11,5 +11,7 @@
     ],
     "python.analysis.extraPaths": [
         "~/.micropico-stubs/included"
-    ]
+    ],
+    "files.autoSave": "afterDelay",
+    "editor.fontSize": 16
 }
