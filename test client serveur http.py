@@ -57,6 +57,8 @@ Content-Type: application/json
 """
 
 while True:
+    valbtn1 = btn1.read()
+    
     conn, addr = server_socket.accept()
     print(f"Connexion de {addr}")
 
@@ -69,3 +71,9 @@ while True:
 
     # Fermer la connexion
     conn.close()
+
+    if valbtn1 == 1:
+        print(f"Serveur d'ip =",  + status[0],"eteint")
+        conn.close()
+        exit(0)
+        
