@@ -46,6 +46,7 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen(5)
 
+
 print(f"Serveur HTTP en attente de connexion sur le port {PORT}...")
 
 # Page JSON à envoyer
@@ -61,6 +62,10 @@ while True:
     
     conn, addr = server_socket.accept()
     print(f"Connexion de {addr}")
+    
+    if valbtn1 == 1:
+        print(f"Serveur d'ip = {status} eteint")
+        server_socket.close() 
 
     # Lire la requête HTTP du client
     request = conn.recv(1024)
@@ -72,8 +77,5 @@ while True:
     # Fermer la connexion
     conn.close()
 
-    if valbtn1 == 1:
-        print(f"Serveur d'ip =",  + status[0],"eteint")
-        conn.close()
-        exit(0)
+
         
