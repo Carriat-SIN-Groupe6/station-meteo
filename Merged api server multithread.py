@@ -54,6 +54,7 @@ async def handle_client(reader, writer):
     await check_pressure()
     
     request = await reader.read(1024)
+    
     response = """
 HTTP/1.1 200 OK
 Content-Type: text/html
@@ -115,7 +116,7 @@ Content-Type: text/html
 
     <div class="container">
         <h1>🌤️ Station Météo</h1>
-        <div class="info">🌡️ Température: <span id="temperature">""" + str(temperature) + """°C </span></div>
+        <div class="info">🌡️ Température: <span id="temperature">""" + str(temperature) + """ </span></div>
         <div class="info">💧 Humidité: <span id="humidity"> """ + str(humidity) + """</span></div>
         <div class="info">🌬️ Pression: <span id="pressure"> """ + str(pressure) + """hPa </span></div>
         <button class="refresh-btn" onclick="document.location.reload()">🔄 Mettre à jour</button>
@@ -177,12 +178,15 @@ async def check_humidity():
         
 async def check_pressure():
     global pressure
-    pressure = bme280.pressure()	# provides relative pressure in hPa
+    pressure = bme280.pressure() # provides relative pressure in hPa
+    
+async def check_temperature():
+    global temperature
+    temperature = bme280.temperature()
         
 
 # Gestion dees boutons pour afficher les informations
 async def button_listener():
-    global temperature
 
     
     while True:
@@ -238,6 +242,12 @@ async def main():
     asyncio.create_task(start_server())
     asyncio.create_task(display_menu())
     asyncio.create_task(button_listener())
+    asyncio.create_task(check_humidity())
+    asyncio.create_task(check_pressure())
+    asyncio.create_task(check_temperature())
+    asyncio.create_task(fetch_weather())
+    asyncio.create_task(fetch_time())
+    asyncio.create_task(fetch_sunrise())
     asyncio.create_task(shutdown_button())
     
     
