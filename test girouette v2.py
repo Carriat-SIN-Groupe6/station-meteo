@@ -5,7 +5,7 @@ import time
 sensor = ADC(27)  # Utilisation directe du canal ADC sur PiCoder
 
 # Dictionnaire des correspondances entre les résistances et les directions du vent
-resistance_to_direction = {
+resistance = {
     (32000, 35000): "Nord",
     (6000, 7000): "Nord-Nord-Est",
     (8000, 9000): "Nord-Est",
@@ -25,8 +25,8 @@ resistance_to_direction = {
 }
 
 def get_wind_direction(value):
-    for (min_res, max_res), direction in resistance_to_direction.items():
-        if min_res <= value <= max_res:
+    for (minimum, maximum), direction in resistance.items():
+        if minimum <= value <= maximum:
             return direction
     return "Direction inconnue"
 
