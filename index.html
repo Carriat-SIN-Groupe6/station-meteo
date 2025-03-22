@@ -1,4 +1,4 @@
-<!DOCTYPE html>   
+<!DOCTYPE html>    
 <html lang="fr">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,18 +20,22 @@
             padding: 0;
         }
         .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             width: 90%;
             max-width: 400px;
+            height: 380px;
             margin: 50px auto;
-            padding: 20px;
-            background: rgba(3, 238, 247, 0.2);
-            border-radius: 10px;
-            box-shadow: 6px 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            ;background: rgba(3, 238, 247, 0.2);
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
         }
 
         .title {
             display: flex;
-            align-items:center;
+            align-items: center;
             justify-content: center;
             gap: 7px;
         }
@@ -63,46 +67,23 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            margin-top: 15px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-top: auto;
+            margin-left: 19%;
+            margin-right: 18%;
             padding: 10px 15px;
             font-size: 16px;
             color: #fff;
-            background: #0a6d94;
+            background: #ff9800;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
+        
         .refresh-btn:hover {
-            background: #3b4ce2;
+            background: #e68900;
         }
 
-        .pressure{
-            font-size: 19px;
-            font-family: "Gidole", sans-serif;
-            font-weight: 400;
-            font-optical-sizing: auto;
-            font-style: normal;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-        }
-
-        .humidity{
-            font-size: 19px;
-            font-family: "Gidole", sans-serif;
-            font-weight: 400;
-            font-optical-sizing: auto;
-            font-style: normal;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-        }
-
-        .temperature{
+        .pressure, .humidity, .temperature, .girouette, .anémo{
             font-size: 19px;
             font-family: "Gidole", sans-serif;
             font-weight: 400;
@@ -117,10 +98,10 @@
         .material-symbols-outlined {
             font-variation-settings:
             'FILL' 1,
-            'wght' 500,
-            'GRAD' 100,
-            'opsz' 48;
-            color: rgb(240, 169, 18);
+            'wght' 350,
+            'GRAD' 0,
+            'opsz' 24;
+            color: yellow;
         }
 
     </style>
@@ -129,24 +110,38 @@
 
     <div class="container">
 
-        <div class="title">
-            <span class="material-symbols-outlined">clear_day</span>
-            <h1>Station Météo</h1>
-        </div>
+        <div>
+            <div class="title">
+                <span class="material-symbols-outlined">clear_day</span>
+                <h1>Station Météo</h1>
+            </div>
 
-        <div class="temperature">
-            <span class="material-symbols-outlined">thermometer</span>
-            <div class="info">Température: <span id="temperature"> 30°C </span></div>
-        </div>
+            <div class="temperature">
+                <span class="material-symbols-outlined">thermometer</span>
+                <div class="info">Température: <span id="temperature"> 30°C </span></div>
+            </div>
 
-        <div class="humidity">
-            <span class="material-symbols-outlined">water_drop</span>
-            <div class="info"> Humidité: <span id="humidity"> 65% </span></div>
-        </div>
+            <div class="humidity">
+                <span class="material-symbols-outlined">water_drop</span>
+                <div class="info"> Humidité: <span id="humidity"> 65% </span></div>
+            </div>
 
-        <div class="pressure">
-            <span class="material-symbols-outlined">air</span>
-            <div class="info">Pression: <span id="pressure"> 1000 hPa </span></div>
+            <div class="pressure">
+                <span class="material-symbols-outlined">air</span>
+                <div class="info">Pression: <span id="pressure"> 1000 hPa </span></div>
+            </div>
+
+            <div class="anémo">
+                <span class="material-symbols-outlined">wind_power</span>
+                <div class="info">Vitesse du vent: <span id="pressure"> 5 km/h </span></div>
+            </div>
+         
+            <div class="girouette">
+                <span class="material-symbols-outlined">air</span>
+                <div class="info">Direction du vent: <span id="pressure"> Nord-Est </span></div>
+            </div>
+            
+
         </div>
         
         <button class="refresh-btn" onclick="document.location.reload()">
