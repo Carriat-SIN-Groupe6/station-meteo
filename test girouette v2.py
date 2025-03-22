@@ -33,4 +33,4 @@ def get_wind_direction(value):
 while True:
     valeur = sensor.read_u16()  # Lire la valeur ADC sur 16 bits (PiCoder)
     print(f"Valeur lue : {valeur} - Direction du vent : {get_wind_direction(valeur)}")
-    time.sleep(1)
+    time.sleep(0.1)
