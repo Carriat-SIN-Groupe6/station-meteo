@@ -120,27 +120,27 @@
 
             <div class="temperature">
                 <span class="material-symbols-outlined">thermometer</span>
-                <div class="info">Température: <span id="temperature"> 30°C </span></div>  <!--remplacer span par : <span id="temperature">""" + str(temperature) + """ </span>-->  
+                <div class="info">Température: <span id="temperature">--</span></div>  <!--remplacer span par : <span id="temperature">""" + str(temperature) + """ </span>-->  
             </div>
 
             <div class="humidity">
                 <span class="material-symbols-outlined">water_drop</span>
-                <div class="info"> Humidité: <span id="humidity"> 65% </span></div>
+                <div class="info"> Humidité: <span id="humidity">--</span>%</div>
             </div>
 
             <div class="pressure">
                 <span class="material-symbols-outlined">air</span>
-                <div class="info">Pression: <span id="pressure"> 1000 hPa </span></div>
+                <div class="info">Pression: <span id="pressure">--</span>hPa</div>
             </div>
 
             <div class="anémo">
                 <span class="material-symbols-outlined">wind_power</span>
-                <div class="info">Vitesse du vent: <span id="pressure"> 5 km/h </span></div>
+                <div class="info">Vitesse du vent: <span id="air_speed">--</span>km/h</div>
             </div>
          
             <div class="girouette">
                 <span class="material-symbols-outlined">air</span>
-                <div class="info">Direction du vent: <span id="pressure"> Nord-Est </span></div>
+                <div class="info">Direction du vent: <span id="wind_direction">--</span></div>
             </div>
             
 
@@ -153,7 +153,20 @@
     </div>
 
 </body>
+
 <script>
-setTimeout(() =>{document.location.reload()}, 15000)
+    const ws = new WebSocket("ws://" + window.location.host + ":12345");
+
+    ws.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        document.getElementById("temperature").innerText = data.temperature;
+        document.getElementById("humidity").innerText = data.humidity;
+        document.getElementById("pressure").innerText = data.pressure;
+    };
+
+    ws.onerror = function(error) {
+        console.error("Erreur WebSocket :", error);
+    };
 </script>
+
 </html>
