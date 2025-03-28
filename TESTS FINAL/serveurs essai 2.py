@@ -8,6 +8,16 @@ import sys
 # Initialisation des capteurs
 bme280 = BME280()
 sensor = ADC(27)
+etat_direction=0
+
+# Dictionnaire des correspondances entre les résistances et les directions du vent
+resistance = {
+    (49000, 51000): "Nord",
+    (5000, 7000): "Est",
+    (17000, 19000): "Sud",
+    (59000, 61000): "Ouest",
+}
+
 
 # Informations WiFi
 SSID = 'WIFI-SIN'
@@ -38,13 +48,22 @@ async def connect_wifi():
     else:
         print('Connexion réussie, IP:', wlan.ifconfig()[0])
 
+def get_wind_direction(value):
+    global etat_direction
+    for (minimum, maximum), direction in resistance.items():
+        if minimum <= value <= maximum:
+            etat_direction=direction
+            return direction
+        
+    return etat_direction
+
 # Récupération des données météo
 def get_weather_data():
     return {
         "temperature": bme280.temperature(),
         "humidity": bme280.humidity(),
         "pressure": bme280.pressure(),
-        "wind_direction": "Nord"
+        "wind_direction": etat_direction
     }
 
 # Gestion des requêtes HTTP
@@ -59,11 +78,13 @@ async def handle_http(reader, writer):
 async def websocket_server(reader, writer):
     try:
         while True:
+            global valeur
+            valeur = sensor.read_u16()  # Lire la valeur ADC sur 16 bits (PiCoder)
             weather_data = json.dumps(get_weather_data())
             await writer.awrite(weather_data.encode('utf-8'))
             await asyncio.sleep(2)
     except Exception as e:
-        print(f"Client déconnecté: {e}")
+        print(f"Client deconnecte: {e}")
     finally:
         await writer.aclose()
 
