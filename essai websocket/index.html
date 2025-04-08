@@ -1,172 +1,80 @@
-<!DOCTYPE html>    
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gidole&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap">
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@1,800&display=swap" rel="stylesheet">
-
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Station Météo</title>
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/869/869869.png">
+    <title>Station Météo PiCoder</title>
     <style>
         body {
-            background: linear-gradient(to right, #2d8ee2, #044b4e);
-            color: #fff;
-            text-align: center;
-            margin: 0;
-            padding: 0;
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
         }
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 90%;
-            max-width: 400px;
-            height: 380px;
-            margin: 50px auto;
-            padding: 25px;
-            ;background: rgba(3, 238, 247, 0.2);
-            border-radius: 15px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        .sensor-data {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-
-        .title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-        }
-        
         h1 {
-            font-size: 24px;
-            font-family: "Urbanist", sans-serif;
-            font-optical-sizing: auto;
-            font-weight: 800;
-            font-style: italic, underlines;
-          }
-
-        .info {
-            font-size: 20px;
-            margin: 10px 0;
+            text-align: center;
+            color: #333;
         }
-        .icon {
-            font-size: 50px;
-            margin: 10px 0;
+        .label {
+            font-weight: bold;
+            color: #666;
         }
-
-        .button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
+        .value {
+            color: #007bff;
         }
-
-        .refresh-btn {
-            justify-content: center;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: auto;
-            margin-left: 19%;
-            margin-right: 18%;
-            padding: 10px 15px;
-            font-size: 16px;
-            color: #fff;
-            background: #e16827;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        
-        .refresh-btn:hover {
-            background: #ea8e04;
-        }
-
-        .pressure, .humidity, .temperature, .girouette, .anémo{
-            font-size: 19px;
-            font-family: "Gidole", sans-serif;
-            font-weight: 400;
-            font-optical-sizing: auto;
-            font-style: italic;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-        }
-
-        .material-symbols-outlined {
-            font-variation-settings:
-            'FILL' 1,
-            'wght' 350,
-            'GRAD' 0,
-            'opsz' 24;
-            color: rgb(255, 204, 0);
-        }
-
     </style>
 </head>
 <body>
-
-    <div class="container">
-
-        <div>
-            <div class="title">
-                <span class="material-symbols-outlined">clear_day</span>
-                <h1>Station Météo</h1>
-            </div>
-
-            <div class="temperature">
-                <span class="material-symbols-outlined">thermometer</span>
-                <div class="info">Température: <span id="temperature">--</span></div>  <!--remplacer span par : <span id="temperature">""" + str(temperature) + """ </span>-->  
-            </div>
-
-            <div class="humidity">
-                <span class="material-symbols-outlined">water_drop</span>
-                <div class="info"> Humidité: <span id="humidity">--</span>%</div>
-            </div>
-
-            <div class="pressure">
-                <span class="material-symbols-outlined">air</span>
-                <div class="info">Pression: <span id="pressure">--</span>hPa</div>
-            </div>
-
-            <div class="anémo">
-                <span class="material-symbols-outlined">wind_power</span>
-                <div class="info">Vitesse du vent: <span id="air_speed">--</span>km/h</div>
-            </div>
-         
-            <div class="girouette">
-                <span class="material-symbols-outlined">air</span>
-                <div class="info">Direction du vent: <span id="wind_direction">--</span></div>
-            </div>
-            
-
-        </div>
-        
-        <button class="refresh-btn" onclick="document.location.reload()">
-            <span class="material-symbols-outlined">autorenew</span> Mettre à jour
-        </button>
-
+    <h1>Station Météo PiCoder</h1>
+    
+    <div class="sensor-data">
+        <p><span class="label">Température :</span> <span id="temperature" class="value">-</span> °C</p>
+        <p><span class="label">Humidité :</span> <span id="humidity" class="value">-</span> %</p>
+        <p><span class="label">Pression :</span> <span id="pressure" class="value">-</span> hPa</p>
+        <p><span class="label">Direction du vent :</span> <span id="wind-direction" class="value">-</span></p>
     </div>
 
+    <script>
+        const socket = new WebSocket('ws://' + window.location.hostname + ':12345');
+        
+        socket.onmessage = function(event) {
+            try {
+                const data = JSON.parse(event.data);
+                
+                document.getElementById('temperature').textContent = 
+                    data.temperature !== null ? data.temperature.toFixed(1) : '-';
+                
+                document.getElementById('humidity').textContent = 
+                    data.humidity !== null ? data.humidity.toFixed(1) : '-';
+                
+                document.getElementById('pressure').textContent = 
+                    data.pressure !== null ? data.pressure.toFixed(1) : '-';
+                
+                document.getElementById('wind-direction').textContent = 
+                    data.wind_direction || '-';
+            } catch (error) {
+                console.error('Erreur de parsing des données:', error);
+            }
+        };
+
+        socket.onopen = function() {
+            console.log('Connexion WebSocket établie');
+        };
+
+        socket.onerror = function(error) {
+            console.error('Erreur WebSocket:', error);
+        };
+
+        socket.onclose = function() {
+            console.log('Connexion WebSocket fermée');
+        };
+    </script>
 </body>
-
-<script>
-    const ws = new WebSocket("ws://" + window.location.host + ":12345");
-
-    ws.onmessage = function(event) {
-        const data = JSON.parse(event.data);
-        document.getElementById("temperature").innerText = data.temperature;
-        document.getElementById("humidity").innerText = data.humidity;
-        document.getElementById("pressure").innerText = data.pressure;
-    };
-
-    ws.onerror = function(error) {
-        console.error("Erreur WebSocket :", error);
-    };
-</script>
-
 </html>

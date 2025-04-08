@@ -9,9 +9,30 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Station Météo</title>
+    <title>Station HTML</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/869/869869.png">
+
     <style>
+
+        @font-face {
+            font-family: "SFPRODISPLAYSEMIBOLDITALIC";
+            font-weight: 400;
+            src: url("SFPRODISPLAYSEMIBOLDITALIC.woff2") format("truetype"); /* ou format("truetype") si c'est un TTF */
+        }
+
+        @font-face {
+            font-family: "SFPRODISPLAYBLACKITALIC";
+            font-weight: 400;
+            src: url("SFPRODISPLAYBLACKITALIC.woff2") format("truetype"); /* ou format("truetype") si c'est un TTF */
+        }
+
+        @font-face {
+            font-family: "SFPRODISPLAYBOLD";
+            font-weight: 400;
+            src: url("SFPRODISPLAYBOLD.woff2") format("truetype"); /* ou format("truetype") si c'est un TTF */
+        }
+
+
         body {
             background: linear-gradient(to right, #2d8ee2, #044b4e);
             color: #fff;
@@ -42,10 +63,12 @@
         
         h1 {
             font-size: 24px;
-            font-family: "Urbanist", sans-serif;
+            font-family: "SFPRODISPLAYBLACKITALIC", sans-serif;
+            src: url("SFPRODISPLAYBLACKITALIC.woff2") format("woff2"),
+                 url("SFPRODISPLAYBLACKITALIC.OTF") format("opentype");
             font-optical-sizing: auto;
             font-weight: 800;
-            font-style: italic, underlines;
+            font-style: italic, underline;
           }
 
         .info {
@@ -66,6 +89,9 @@
 
         .refresh-btn {
             justify-content: center;
+            font-family: "SFPRODISPLAYBOLD", sans-serif;
+            src: url("SFPRODISPLAYBOLD.woff2") format("woff2"),
+                 url("SFPRODISPLAYBOLD.OTF") format("opentype");
             display: flex;
             align-items: center;
             gap: 5px;
@@ -87,10 +113,12 @@
 
         .pressure, .humidity, .temperature, .girouette, .anémo{
             font-size: 19px;
-            font-family: "Gidole", sans-serif;
+            font-family: "SFPRODISPLAYBOLD", sans-serif;
+            src: url("SFPRODISPLAYBOLD.woff2") format("woff2"),
+                 url("SFPRODISPLAYBOLD.OTF") format("opentype");
+
             font-weight: 400;
             font-optical-sizing: auto;
-            font-style: italic;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -106,6 +134,7 @@
             color: rgb(255, 204, 0);
         }
 
+
     </style>
 </head>
 <body>
@@ -120,27 +149,27 @@
 
             <div class="temperature">
                 <span class="material-symbols-outlined">thermometer</span>
-                <div class="info">Température: <span id="temperature">--</span></div>  <!--remplacer span par : <span id="temperature">""" + str(temperature) + """ </span>-->  
+                <div class="info">Température: <span id="temperature"> 30°C </span></div>  <!--remplacer span par : <span id="temperature">""" + str(temperature) + """ </span>-->  
             </div>
 
             <div class="humidity">
                 <span class="material-symbols-outlined">water_drop</span>
-                <div class="info"> Humidité: <span id="humidity">--</span>%</div>
+                <div class="info"> Humidité: <span id="humidity"> 65% </span></div>
             </div>
 
             <div class="pressure">
                 <span class="material-symbols-outlined">air</span>
-                <div class="info">Pression: <span id="pressure">--</span>hPa</div>
+                <div class="info">Pression: <span id="pressure"> 1000 hPa </span></div>
             </div>
 
             <div class="anémo">
                 <span class="material-symbols-outlined">wind_power</span>
-                <div class="info">Vitesse du vent: <span id="air_speed">--</span>km/h</div>
+                <div class="info">Vitesse du vent: <span id="pressure"> 5 km/h </span></div>
             </div>
          
             <div class="girouette">
                 <span class="material-symbols-outlined">air</span>
-                <div class="info">Direction du vent: <span id="wind_direction">--</span></div>
+                <div class="info">Direction du vent: <span id="pressure"> Nord-Est </span></div>
             </div>
             
 
@@ -153,20 +182,5 @@
     </div>
 
 </body>
-
-<script>
-    const ws = new WebSocket("ws://" + window.location.host + ":12345");
-
-    ws.onmessage = function(event) {
-        const data = JSON.parse(event.data);
-        document.getElementById("temperature").innerText = data.temperature;
-        document.getElementById("humidity").innerText = data.humidity;
-        document.getElementById("pressure").innerText = data.pressure;
-    };
-
-    ws.onerror = function(error) {
-        console.error("Erreur WebSocket :", error);
-    };
-</script>
 
 </html>
